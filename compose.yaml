@@ -8,11 +8,16 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./frontend:/usr/share/nginx/html:ro
     depends_on:
-      - backend1
-      - backend2
-      - backend3
-      - backend4
-      - backend5
+      backend1:
+        condition: service_healthy
+      backend2:
+        condition: service_healthy
+      backend3:
+        condition: service_healthy
+      backend4:
+        condition: service_healthy
+      backend5:
+        condition: service_healthy
 
   backend1:
     build: ./backend
