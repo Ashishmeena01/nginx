@@ -33,3 +33,10 @@ const server = http.createServer((req, res) => {
 server.listen(3000, "0.0.0.0", () => {
   console.log(`Backend ${serverId} listening on port 3000`);
 });
+
+for (const signal of ["SIGINT", "SIGTERM"]) {
+  process.on(signal, () => {
+    console.log(`${serverId} received ${signal}; closing server`);
+    server.close(() => process.exit(0));
+  });
+}
