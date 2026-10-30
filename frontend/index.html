@@ -4,29 +4,38 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="Explore Nginx load balancing across five Node.js backends." />
     <title>Nginx Load Balancing Lab</title>
 </head>
 
 <body>
-    <h1>Nginx Lab</h1>
-    <p>Nginx serves this HTML file directly.</p>
+    <main>
+    <h1>Nginx Load Balancing Lab</h1>
+    <p>This page is served by Nginx. Send a request to see which backend handles it.</p>
 
     <button id="btn">Call a backend</button>
-    <pre id="output">Click the button to test.</pre>
+    <pre id="output" aria-live="polite">Click the button to test.</pre>
+    </main>
 
     <script>
-        document.getElementById("btn").onclick = async () => {
+        document.getElementById("btn").addEventListener("click", async (event) => {
+            const button = event.currentTarget;
             const output = document.getElementById("output");
+            button.disabled = true;
             output.textContent = "Loading...";
 
             try {
                 const response = await fetch("/api/");
+                if (!response.ok) throw new Error(`Request failed (${response.status})`);
                 const data = await response.json();
                 output.textContent = JSON.stringify(data, null, 2);
             } catch (error) {
                 output.textContent = error.message;
+            } finally {
+                button.disabled = false;
             }
-        };
+        });
     </script>
 </body>
 
