@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nginx Load Balancing Lab</title>
+</head>
+
+<body>
+    <h1>Nginx Lab</h1>
+    <p>Nginx serves this HTML file directly.</p>
+
+    <button id="btn">Call a backend</button>
+    <pre id="output">Click the button to test.</pre>
+
+    <script>
+        document.getElementById("btn").onclick = async () => {
+            const output = document.getElementById("output");
+            output.textContent = "Loading...";
+
+            try {
+                const response = await fetch("/api/");
+                const data = await response.json();
+                output.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                output.textContent = error.message;
+            }
+        };
+    </script>
+</body>
+
+</html>

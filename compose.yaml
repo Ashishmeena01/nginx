@@ -1,0 +1,40 @@
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
+      - backend4
+      - backend5
+
+  backend1:
+    build: ./backend
+    environment:
+      SERVER_ID: backend1
+
+  backend2:
+    build: ./backend
+    environment:
+      SERVER_ID: backend2
+
+  backend3:
+    build: ./backend
+    environment:
+      SERVER_ID: backend3
+
+  backend4:
+    build: ./backend
+    environment:
+      SERVER_ID: backend4
+
+  backend5:
+    build: ./backend
+    environment:
+      SERVER_ID: backend5
